@@ -1,28 +1,20 @@
 class ImagesController < ApplicationController
   before_action :set_image, only: [:show, :edit, :update, :destroy]
 
-  # GET /images
-  # GET /images.json
   def index
     @images = Image.all
   end
 
-  # GET /images/1
-  # GET /images/1.json
   def show
   end
 
-  # GET /images/new
   def new
     @image = Image.new
   end
 
-  # GET /images/1/edit
   def edit
   end
 
-  # POST /images
-  # POST /images.json
   def create
     @image = Image.new(image_params)
 
@@ -37,8 +29,6 @@ class ImagesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /images/1
-  # PATCH/PUT /images/1.json
   def update
     respond_to do |format|
       if @image.update(image_params)
@@ -51,14 +41,40 @@ class ImagesController < ApplicationController
     end
   end
 
-  # DELETE /images/1
-  # DELETE /images/1.json
   def destroy
     @image.destroy
     respond_to do |format|
       format.html { redirect_to images_url, notice: 'Image was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def analyze
+    json =
+      if request.content_type == 'application/json'
+        Analyzer.send_url(params[:url])
+      elsif request.content_type == 'application/octet-stream'
+        Analyzer.upload_file(request.body.read)
+      end
+    render json: JSON.load(json)
+  end
+
+  def detect
+    json =
+      if request.content_type == 'application/json'
+        Detector.send_url(params[:url])
+      elsif request.content_type == 'application/octet-stream'
+        Detector.upload_file(request.body.read)
+      end
+    render json: JSON.load(json)
+  end
+
+  def verify
+    json =
+      if request.content_type == 'application/json'
+        Verifier.send_face_ids(params[:faceId1], params[:faceId2])
+      end
+    render json: JSON.load(json)
   end
 
   private

@@ -1,0 +1,112 @@
+<nav class='navbar navbar-default'>
+  <div class='container'>
+    <div class='row'>
+      <div class="col-xs-12">
+        howold.jp
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="analyzer">
+    <div class="row row-6">
+      <div class="col-xs-6">
+        <div class="preview">
+          <div class="canvas-outer">
+            <img src="./ajax-loader.gif" style="display: none; position: absolute;">
+            <canvas></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="attrs">
+          <div class="nav-tabs-outer">
+            <ul class="nav nav-tabs">
+              <li class="nav-item active">
+                <a href="#search-tab" class="nav-link" data-toggle="tab">Search</a>
+              </li>
+              <li class="nav-item">
+                <a href="#response-tab" class="nav-link" data-toggle="tab">Response</a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div id="search-tab" class="tab-pane active">
+              <label for="">Search an image</label>
+              <div class="input-group">
+                <input type="text" class="input-lg form-control" placeholder="http:// ...">
+                <span class="input-group-btn">
+                  <button class="btn btn-lg btn-info search-file" type="button"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</button>
+                </span>
+              </div>
+              <label for="">Upload a pic</label>
+              <div>
+                <button class="btn btn-lg btn-default upload-file" type="button"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Upload</button>
+                <input type="file" style="display: none;">
+              </div>
+              <div>Caption</div>
+              <div class="caption"></div>
+              <div>Beautiful Rank</div>
+              <div class="beautiful-rank"></div>
+            </div>
+            <div id="response-tab" class="tab-pane">
+              <div style="overflow-y: scroll;"><pre class="response-outer" style="border: none;"><code class="response"></code></pre></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="images-outer">
+        <div class="images"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    $('.response-outer').css('height', ($('.attrs').height() - $('.nav-tabs-outer').height()) + 'px');
+    fitCanvasSize();
+    loading.hide();
+    var swimmingUrl = 'https://portalstoragewuprod2.azureedge.net/vision/Analysis/1-1.jpg';
+    var appleUrl = 'https://cdn-ak.f.st-hatena.com/images/fotolife/f/furafura-nau/20160304/20160304171855.jpg';
+    // loadImage(url, function () { analyze(url) });
+    addFileInputHandler();
+    addSearchFileButtonClickHandler();
+    addUploadFileButtonClickHandler();
+
+    var images = [{
+      url: appleUrl,
+      features: ''
+    }];
+
+    wall = new Freewall(".images");
+    wall.reset({
+      selector: '.cell',
+      animate: true,
+      cellW: cellWidth,
+      cellH: cellHeight,
+      gutterY: 6,
+      gutterX: 6,
+      onResize: function() {
+        wall.fitWidth();
+        resetOpacity();
+      }
+    });
+    wall.fitWidth();
+
+    for(var i = 0; i < 10; i++) {
+      appendImage(wall, images[0].url);
+    }
+    appendImage(wall, swimmingUrl);
+
+    clickFirstCell();
+  });
+</script>
