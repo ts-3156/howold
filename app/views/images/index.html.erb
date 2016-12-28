@@ -12,7 +12,7 @@
   <div class="row row-6">
     <div class="col-xs-6">判定結果
     </div>
-    <div class="col-xs-6">画像を選択
+    <div class="col-xs-6">写真を選択
     </div>
   </div>
 
@@ -28,39 +28,28 @@
       </div>
       <div class="col-xs-6">
         <div class="attrs">
-          <div class="nav-tabs-outer">
-            <ul class="nav nav-tabs">
-              <li class="nav-item active">
-                <a href="#search-tab" class="nav-link" data-toggle="tab">Search</a>
-              </li>
-              <li class="nav-item">
-                <a href="#response-tab" class="nav-link" data-toggle="tab">Response</a>
-              </li>
-            </ul>
-          </div>
-          <div class="tab-content">
-            <div id="search-tab" class="tab-pane active">
-              <label for="">URLから画像を選択</label>
+            <div class="upload-btn-group">
+              <div>
+                <button class="btn btn-xl btn-default upload-btn" type="button"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;写真を選択<br><span style="font-size: x-small;">スマホまたはパソコンから</span></button>
+                <input type="file" style="display: none;">
+              </div>
+              <div class="show-search-box"><a href="#">他の方法：URLから写真を選択</a></div>
+            </div>
+
+            <div class="search-box-group" style="display: none;">
               <div class="input-group">
-                <input type="text" class="input-lg form-control" placeholder="http:// ...">
+                <input type="text" class="input-lg form-control" placeholder="http から始まる写真のURL">
                 <span class="input-group-btn">
                   <button class="btn btn-lg btn-info search-file" type="button"><i class="glyphicon glyphicon-search"></i>&nbsp;Search</button>
                 </span>
               </div>
-              <label for="">スマートフォンまたはPCから画像を選択</label>
-              <div>
-                <button class="btn btn-lg btn-default upload-file" type="button"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Upload</button>
-                <input type="file" style="display: none;">
-              </div>
-              <div>Caption</div>
-              <div class="caption"></div>
-              <div>Beautiful Rank</div>
-              <div class="beautiful-rank"></div>
+              <div class="show-upload-btn"><a href="#">他の方法：スマホまたはパソコンから写真を選択</a></div>
             </div>
-            <div id="response-tab" class="tab-pane">
-              <div style="overflow-y: scroll;"><pre class="response-outer" style="border: none;"><code class="response"></code></pre></div>
-            </div>
-          </div>
+
+            <!--<div>Caption</div>-->
+            <!--<div class="caption"></div>-->
+            <!--<div>Beautiful Rank</div>-->
+            <!--<div class="beautiful-rank"></div>-->
         </div>
       </div>
     </div>
@@ -80,7 +69,6 @@
 
 <script>
   $(function() {
-    $('.response-outer').css('height', ($('.attrs').height() - $('.nav-tabs-outer').height()) + 'px');
     fitCanvasSize();
     loading.hide();
     var swimmingUrl = 'https://portalstoragewuprod2.azureedge.net/vision/Analysis/1-1.jpg';
@@ -89,6 +77,23 @@
     addFileInputHandler();
     addSearchFileButtonClickHandler();
     addUploadFileButtonClickHandler();
+
+    $('.upload-btn-group').css('margin-top', ($('.attrs').height() - $('.upload-btn-group').height()) / 2);
+//    $('.upload-btn-group').css('width', $('.upload-btn').width());
+    $('.upload-btn').css('margin-left', ($('.attrs').width() - $('.upload-btn').outerWidth()) / 2);
+    $('.search-box-group').css('margin-top', ($('.attrs').height() - $('.search-box-group').height()) / 2);
+    $('.show-upload-btn a').on('click', function () {
+      $('.search-box-group').fadeOut('slow', function () {
+        $('.upload-btn-group').fadeIn('slow');
+      });
+      return false;
+    });
+    $('.show-search-box a').on('click', function () {
+      $('.upload-btn-group').fadeOut('slow', function () {
+        $('.search-box-group').fadeIn('slow');
+      });
+      return false;
+    });
 
     var images = [{
       url: appleUrl,

@@ -83,7 +83,7 @@ function analyze (url, callback) {
   };
 
   var done = function (analyzed) {
-    $('.attrs .response').text(JSON.stringify(analyzed, null, 2));
+    // $('.attrs .response').text(JSON.stringify(analyzed, null, 2));
     $('.attrs .caption').text(analyzed.description.captions[0].text);
     if (!analyzed.faces.length) {
       drawNoFaceWorning();
@@ -520,7 +520,7 @@ function addSearchFileButtonClickHandler () {
 }
 
 function addUploadFileButtonClickHandler () {
-  $('.upload-file').on('click', function () {
+  $('.upload-btn').on('click', function () {
     $('input[type="file"]').trigger('click');
   });
 }
