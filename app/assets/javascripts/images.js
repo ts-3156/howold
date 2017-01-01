@@ -325,27 +325,16 @@ var colors = {
   red: "rgba(255, 0, 0, 1.0)",
   gray: "rgba(128, 128, 128, 0.5)",
   cyan: "rgba(0, 255, 255, 0.5)",
-  magenta: "rgba(255, 0, 255, 0.5)"
+  magenta: "rgba(255, 0, 255, 0.5)",
+  green: "rgba(0, 102, 0, 0.7)"
 };
-
-//    var font = {
-//      height: 12,
-//      color: colors.white
-//    };
-//    font.style = 'bold ' + font.height + 'pt "メイリオ"';
-//    font.margin = font.height * 0.4;
-//
-//    var borderedFont = {
-//      fillStyle: colors.red,
-//      strokeStyle: colors.white
-//    };
 
 var fontSize = ['small', 'medium'][0];
 
 function fontAttrs () {
-  var height = 26;
+  var height = 22;
   var weight = 'bold';
-  var fillStyle = colors.red;
+  var fillStyle = colors.white;
   var strokeStyle = colors.white;
   var lineWidth = 1.0;
   if (height < 20) {
@@ -355,6 +344,9 @@ function fontAttrs () {
   } else {
     lineWidth = 1.5;
   }
+
+  weight = 'normal';
+  lineWidth = 0;
 
   if (fontSize == 'small') {
     height = 12;
@@ -375,11 +367,11 @@ function fontAttrs () {
 }
 
 var balloon = {
-  color: colors.gray
+  color: colors.green
 };
 
 var border = {
-  color: colors.gray,
+  color: colors.green,
   width: 2
 };
 
@@ -481,7 +473,7 @@ function drawText (text, x, y) {
 function validateFile(file) {
   if (file.type && !file.type.match('image.*')) { return false; }
   if (file.name && !file.name.match(/\.(gif|png|jpe?g)$/i)) { return false; }
-  if (file.size && file.size > 2 * 1000 * 1000) { return false; }
+  if (file.size && file.size > 5 * 1000 * 1000) { return false; } // 5MB
   return true;
 }
 
@@ -493,6 +485,7 @@ function addFileInputHandler () {
     // loading.show();
     var file = this.files[0];
     if (!validateFile(file)) { return; }
+
 
     readImage(file, function (src) {
       appendImage(wall, src);

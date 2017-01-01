@@ -27,7 +27,7 @@
 
 h1 {
   margin: 0;
-  padding: 0;
+  padding: 10px 0 10px 0;
 }
 
 .analyzer {
@@ -58,5 +58,5 @@ h1 {
   cursor: pointer;
 }
 .images .cell.selected {
-  border: 3px solid #aaeeee;
+  border: 3px solid rgba(0, 102, 0, 0.7); /* green */
 }
