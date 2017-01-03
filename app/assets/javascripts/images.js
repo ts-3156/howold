@@ -18,8 +18,8 @@ var failed = function (err) {
 
 function verify (face, callback) {
   var faceIds = {
-    male: "3d046e0a-c0e2-45ce-abe2-d6dee4bf09f4",
-    female: "3def9189-e0c8-4e0a-b4e0-3b48eafb3446"
+    male: "43a1b1ad-6a95-45e2-88c8-e060a3c17c28",
+    female: "3e276377-3904-4bb9-9da5-1e861534b42f"
   };
   var sendFaceId = function (face) {
     return $.ajax({
@@ -146,7 +146,7 @@ function fitCanvasSize () {
   var h = $('.canvas-outer').height();
   $('canvas').attr('width', w);
   $('canvas').attr('height', h);
-  loading.css({left: w/2 - 50, top: h/2 - 50});
+  loading.css({left: w/2 - 40, top: h/2 - 40});
 }
 
 function calculateAspectRatio(srcWidth, srcHeight, maxWidth, maxHeight) {
@@ -164,7 +164,7 @@ function loadImage(src, callback) {
     clearCanvas();
     drawImage(img);
     if (callback) callback(img);
-  }
+  };
   img.src = src;
 }
 
@@ -222,12 +222,6 @@ function drawFaceAttrs (face) {
   var text = ageAndGenderText(face);
   var textWidth = measureTextWidth(text);
   drawBalloon(text, rect.x + (rect.width - textWidth)/2, rect.y + rect.height + margin);
-  // drawStars(rect.x, rect.y, rect.width, rect.height);
-
-//      var rankText = beautifulRankText(face);
-//      var rankTextWidth = measureTextWidth(rankText);
-//      $('.attrs .beautiful-rank').text(rankText);
-//      drawBeautifulRank(rankText, rect.x + (rect.width - rankTextWidth)/2, rect.y - font.height - font.margin - margin);
 }
 
 function measureTextWidth (text) {
@@ -248,52 +242,6 @@ function drawBalloon (text, x, y) {
   drawRoundedRect(x - padding, y, textWidth + 2*padding, font.height + 2*padding, radius);
   drawText(text, x + padding - padding, y + font.height + padding);
 }
-
-//    function drawBeautifulRank (text, x, y) {
-//      var padding = font.margin;
-//      drawText(text, x + padding - padding, y + font.height + padding);
-//    }
-
-// var stars = [];
-// function loadStars() {
-//   var urls = ['./star.png'];
-//   var img = new Image();
-//   img.onload = function() {
-//     stars[0] = img;
-//   };
-//   img.src = urls[0];
-// }
-// loadStars();
-
-//    function drawStars (x, y, width, height) {
-//      var canvas = $('canvas')[0];
-//      var ctx = canvas.getContext('2d');
-//      var star = {
-//        img: stars[0],
-//        width: 20,
-//        height: 20
-//      };
-//      var fluctuation = function (min, max) {
-//				var val = Math.floor( Math.random() * (max + 1 - min) ) + min;
-//        return val - (min+max)/2.0;
-//      };
-//      ctx.globalAlpha = 0.65;
-//      for (var i = x; i < x + width; i += star.width*2) {
-//				var rand = {x: fluctuation(star.width/3, star.width/2.0), y: fluctuation(star.height/3, star.height/2.0)};
-//				var px = i - star.width/2;
-//				var py = y - star.height/2;
-//        ctx.drawImage(star.img, px + rand.x, py + rand.y,          star.width, star.height);
-//        ctx.drawImage(star.img, px + rand.x, py + rand.y + height, star.width, star.height);
-//      }
-//      for (var i = y; i < y + height; i += star.height*2) {
-//				var rand = {x: fluctuation(star.width/3, star.width/2.0), y: fluctuation(star.height/3, star.height/2.0)};
-//				var px = x - star.width/2;
-//				var py = i - star.height/2;
-//        ctx.drawImage(star.img, px + rand.x,         py + rand.y, star.width, star.height);
-//        ctx.drawImage(star.img, px + rand.x + width, py + rand.y, star.width, star.height);
-//      }
-//      ctx.globalAlpha = 1.0;
-//    }
 
 var t = {
   worning: {
@@ -391,29 +339,19 @@ function ageAndGenderText(face) {
   var age = face.age;
   var gender = face.gender;
   if (gender.toLowerCase() == 'male') {
-    if (face.confidence < 0.3) {
-      gender = age < 20 ? t['boy'] : t['man'];
-    } else {
+    if (face.confidence >= 0.3) {
       gender = t['beautifulRank']['male']['high'];
+    } else {
+      gender = age < 20 ? t['boy'] : t['man'];
     }
   } else {
-    if (face.confidence < 0.3) {
-      gender = age < 20 ? t['girl'] : t['woman'];
-    } else{
+    if (face.confidence >= 0.3) {
       gender = t['beautifulRank']['female']['high'];
+    } else{
+      gender = age < 20 ? t['girl'] : t['woman'];
     }
   }
   return Math.round(face.age) + t['age'] + ' ' + gender;
-}
-
-function beautifulRankText(face) {
-  var text = '';
-  if (face.confidence < 0.3) {
-    text = t['beautifulRank'][face.gender.toLowerCase()]['normal'];
-  } else {
-    text = t['beautifulRank'][face.gender.toLowerCase()]['high'];
-  }
-  return text;
 }
 
 function drawRect (x, y, width, height) {

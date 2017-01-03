@@ -13,7 +13,8 @@
 ActiveRecord::Schema.define(version: 20161226170752) do
 
   create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
-    t.string   "url"
+    t.string   "base64"
+    t.string   "sha1"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
